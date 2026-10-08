@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Plus, Edit2, Trash2, MapPin, ExternalLink, Search, Eye, Phone, Clock } from 'lucide-react';
 import { Wisata } from '../types';
+import { getSafeImageUrl, handleImageFallback } from '../utils/imageHelper';
 
 interface WisataListViewProps {
   kategoriId: number; // 1: Pegunungan, 2: Air, 3: Religi
@@ -141,13 +142,11 @@ export const WisataListView: React.FC<WisataListViewProps> = ({
                         className="w-12 h-10 rounded-md overflow-hidden bg-stone-100 mx-auto border border-stone-200 cursor-pointer hover:opacity-85 transition-opacity"
                       >
                         <img
-                          src={item.foto_wisata}
+                          src={getSafeImageUrl(item.foto_wisata, item.id_kategori_wisata === 2 ? 'waterfall' : item.id_kategori_wisata === 3 ? 'temple' : 'highlands')}
                           alt={item.nama_wisata}
                           className="w-full h-full object-cover"
                           referrerPolicy="no-referrer"
-                          onError={(e) => {
-                            (e.target as HTMLImageElement).src = '/src/assets/images/dolano_hero_highlands_1791445064718.jpg';
-                          }}
+                          onError={(e) => handleImageFallback(e, item.id_kategori_wisata === 2 ? 'waterfall' : item.id_kategori_wisata === 3 ? 'temple' : 'highlands')}
                         />
                       </div>
                     </td>
@@ -194,13 +193,11 @@ export const WisataListView: React.FC<WisataListViewProps> = ({
           <div className="bg-white rounded-2xl max-w-lg w-full overflow-hidden shadow-2xl border border-stone-200 animate-in fade-in zoom-in-95 duration-150">
             <div className="relative h-56 bg-stone-900">
               <img
-                src={selectedPreview.foto_wisata}
+                src={getSafeImageUrl(selectedPreview.foto_wisata, selectedPreview.id_kategori_wisata === 2 ? 'waterfall' : selectedPreview.id_kategori_wisata === 3 ? 'temple' : 'highlands')}
                 alt={selectedPreview.nama_wisata}
                 className="w-full h-full object-cover"
                 referrerPolicy="no-referrer"
-                onError={(e) => {
-                  (e.target as HTMLImageElement).src = '/src/assets/images/dolano_hero_highlands_1791445064718.jpg';
-                }}
+                onError={(e) => handleImageFallback(e, selectedPreview.id_kategori_wisata === 2 ? 'waterfall' : selectedPreview.id_kategori_wisata === 3 ? 'temple' : 'highlands')}
               />
               <button
                 onClick={() => setSelectedPreview(null)}

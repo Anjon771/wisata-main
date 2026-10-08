@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Search, Mountain, Waves, Landmark, UtensilsCrossed, BedDouble, MapPin, ExternalLink, Send, CheckCircle2, ArrowRight } from 'lucide-react';
 import { Wisata, Restoran, Penginapan } from '../types';
+import { getSafeImageUrl, handleImageFallback, localAssets } from '../utils/imageHelper';
 
 interface VisitorPortalViewProps {
   wisataList: Wisata[];
@@ -122,10 +123,11 @@ export const VisitorPortalView: React.FC<VisitorPortalViewProps> = ({
       {/* Hero Section (Cinematic 16:9 visual focal point, unboxed typography) */}
       <section className="relative rounded-2xl overflow-hidden bg-stone-950 text-white min-h-[460px] flex items-center justify-center p-8 sm:p-14 border border-stone-800 shadow-xl">
         <img
-          src="/src/assets/images/dolano_hero_highlands_1791445064718.jpg"
+          src={localAssets.highlands}
           alt="Lanskap Wisata Dolano"
           className="absolute inset-0 w-full h-full object-cover opacity-45"
           referrerPolicy="no-referrer"
+          onError={(e) => handleImageFallback(e, 'highlands')}
         />
         <div className="relative z-10 max-w-3xl text-center space-y-4">
           <div className="text-xs uppercase tracking-widest text-amber-300 font-semibold">
@@ -258,13 +260,11 @@ export const VisitorPortalView: React.FC<VisitorPortalViewProps> = ({
             {/* 4:3 Aspect Ratio Image Frame */}
             <div className="relative aspect-4/3 overflow-hidden bg-stone-900">
               <img
-                src={card.image}
+                src={getSafeImageUrl(card.image, 'highlands')}
                 alt={card.title}
                 className="w-full h-full object-cover group-hover:scale-103 transition-transform duration-300"
                 referrerPolicy="no-referrer"
-                onError={(e) => {
-                  (e.target as HTMLImageElement).src = '/src/assets/images/dolano_hero_highlands_1791445064718.jpg';
-                }}
+                onError={(e) => handleImageFallback(e, 'highlands')}
               />
             </div>
 
@@ -359,13 +359,11 @@ export const VisitorPortalView: React.FC<VisitorPortalViewProps> = ({
           <div className="bg-white rounded-2xl max-w-lg w-full overflow-hidden shadow-2xl border border-stone-200 animate-in fade-in zoom-in-95 duration-150">
             <div className="relative h-60 bg-stone-900">
               <img
-                src={selectedItem.image}
+                src={getSafeImageUrl(selectedItem.image, 'highlands')}
                 alt={selectedItem.title}
                 className="w-full h-full object-cover"
                 referrerPolicy="no-referrer"
-                onError={(e) => {
-                  (e.target as HTMLImageElement).src = '/src/assets/images/dolano_hero_highlands_1791445064718.jpg';
-                }}
+                onError={(e) => handleImageFallback(e, 'highlands')}
               />
               <button
                 onClick={() => setSelectedItem(null)}

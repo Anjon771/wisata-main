@@ -14,6 +14,11 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Serve static assets for reliable image delivery (supports GitHub Pages, local dev, & direct links)
+app.use('/assets/images', express.static(path.join(__dirname, 'public', 'assets', 'images')));
+app.use('/src/assets/images', express.static(path.join(__dirname, 'src', 'assets', 'images')));
+app.use(express.static(path.join(__dirname, 'public')));
+
 // In-memory data storage
 let wisataList = [...initialWisata];
 let restoranList = [...initialRestoran];

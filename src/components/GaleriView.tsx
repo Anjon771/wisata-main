@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ZoomIn, Mountain, Waves, Landmark, UtensilsCrossed, BedDouble } from 'lucide-react';
 import { Wisata, Restoran, Penginapan } from '../types';
+import { getSafeImageUrl, handleImageFallback } from '../utils/imageHelper';
 
 interface GaleriViewProps {
   wisataList: Wisata[];
@@ -157,13 +158,11 @@ export const GaleriView: React.FC<GaleriViewProps> = ({
             className="group relative h-48 bg-stone-900 rounded-xl overflow-hidden cursor-pointer border border-stone-200/90 shadow-2xs"
           >
             <img
-              src={item.src}
+              src={getSafeImageUrl(item.src, 'highlands')}
               alt={item.title}
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
               referrerPolicy="no-referrer"
-              onError={(e) => {
-                (e.target as HTMLImageElement).src = '/src/assets/images/dolano_hero_highlands_1791445064718.jpg';
-              }}
+              onError={(e) => handleImageFallback(e, 'highlands')}
             />
             {/* Scrim Overlay */}
             <div className="absolute inset-0 bg-gradient-to-t from-stone-950/80 via-stone-950/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity p-3 flex flex-col justify-end">
@@ -194,10 +193,11 @@ export const GaleriView: React.FC<GaleriViewProps> = ({
           >
             <div className="relative max-h-[75vh] flex items-center justify-center bg-black">
               <img
-                src={lightboxImage.src}
+                src={getSafeImageUrl(lightboxImage.src, 'highlands')}
                 alt={lightboxImage.title}
                 className="max-h-[75vh] w-auto max-w-full object-contain"
                 referrerPolicy="no-referrer"
+                onError={(e) => handleImageFallback(e, 'highlands')}
               />
               <button
                 onClick={() => setLightboxImage(null)}

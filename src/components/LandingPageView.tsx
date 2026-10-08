@@ -23,6 +23,7 @@ import {
   X
 } from 'lucide-react';
 import { Wisata, Restoran, Penginapan } from '../types';
+import { getSafeImageUrl, handleImageFallback, localAssets } from '../utils/imageHelper';
 import { ItinerarySection } from './ItinerarySection';
 import { BudgetCalculatorSection } from './BudgetCalculatorSection';
 import { SeasonalWeatherGuide } from './SeasonalWeatherGuide';
@@ -151,10 +152,11 @@ export const LandingPageView: React.FC<LandingPageViewProps> = ({
       {/* 1. HERO SECTION (16:9 dominant visual focal point with measured contrast scrim) */}
       <section className="relative rounded-3xl overflow-hidden bg-stone-950 text-white min-h-[540px] sm:min-h-[600px] flex items-center justify-center p-8 sm:p-16 border border-stone-800 shadow-2xl">
         <img
-          src="/src/assets/images/dolano_hero_highlands_1791445064718.jpg"
+          src={localAssets.highlands}
           alt="Bentang Alam Kaldera Dolano"
           className="absolute inset-0 w-full h-full object-cover opacity-50"
           referrerPolicy="no-referrer"
+          onError={(e) => handleImageFallback(e, 'highlands')}
         />
         {/* Measured Scrim */}
         <div className="absolute inset-0 bg-gradient-to-t from-stone-950 via-stone-950/45 to-stone-950/20" />
@@ -256,10 +258,11 @@ export const LandingPageView: React.FC<LandingPageViewProps> = ({
             className="group relative rounded-2xl overflow-hidden bg-stone-900 border border-stone-200/90 min-h-[320px] flex flex-col justify-end p-6 cursor-pointer shadow-xs hover:border-stone-900 transition-colors"
           >
             <img
-              src="/src/assets/images/dolano_hero_highlands_1791445064718.jpg"
+              src={localAssets.highlands}
               alt="Wisata Pegunungan"
               className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-60"
               referrerPolicy="no-referrer"
+              onError={(e) => handleImageFallback(e, 'highlands')}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-stone-950 via-stone-950/40 to-transparent" />
             <div className="relative z-10 space-y-2 text-white">
@@ -289,10 +292,11 @@ export const LandingPageView: React.FC<LandingPageViewProps> = ({
             className="group relative rounded-2xl overflow-hidden bg-stone-900 border border-stone-200/90 min-h-[320px] flex flex-col justify-end p-6 cursor-pointer shadow-xs hover:border-stone-900 transition-colors"
           >
             <img
-              src="/src/assets/images/wisata_waterfall_nature_1791445087445.jpg"
+              src={localAssets.waterfall}
               alt="Wisata Air"
               className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-60"
               referrerPolicy="no-referrer"
+              onError={(e) => handleImageFallback(e, 'waterfall')}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-stone-950 via-stone-950/40 to-transparent" />
             <div className="relative z-10 space-y-2 text-white">
@@ -322,10 +326,11 @@ export const LandingPageView: React.FC<LandingPageViewProps> = ({
             className="group relative rounded-2xl overflow-hidden bg-stone-900 border border-stone-200/90 min-h-[320px] flex flex-col justify-end p-6 cursor-pointer shadow-xs hover:border-stone-900 transition-colors"
           >
             <img
-              src="/src/assets/images/wisata_temple_heritage_1791445102118.jpg"
+              src={localAssets.temple}
               alt="Wisata Religi"
               className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-60"
               referrerPolicy="no-referrer"
+              onError={(e) => handleImageFallback(e, 'temple')}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-stone-950 via-stone-950/40 to-transparent" />
             <div className="relative z-10 space-y-2 text-white">
@@ -430,13 +435,11 @@ export const LandingPageView: React.FC<LandingPageViewProps> = ({
             >
               <div className="relative aspect-4/3 overflow-hidden bg-stone-900">
                 <img
-                  src={item.foto_wisata}
+                  src={getSafeImageUrl(item.foto_wisata, item.id_kategori_wisata === 2 ? 'waterfall' : item.id_kategori_wisata === 3 ? 'temple' : 'highlands')}
                   alt={item.nama_wisata}
                   className="w-full h-full object-cover group-hover:scale-104 transition-transform duration-300"
                   referrerPolicy="no-referrer"
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).src = '/src/assets/images/dolano_hero_highlands_1791445064718.jpg';
-                  }}
+                  onError={(e) => handleImageFallback(e, item.id_kategori_wisata === 2 ? 'waterfall' : item.id_kategori_wisata === 3 ? 'temple' : 'highlands')}
                 />
               </div>
 
@@ -522,13 +525,11 @@ export const LandingPageView: React.FC<LandingPageViewProps> = ({
             >
               <div className="relative aspect-4/3 overflow-hidden bg-stone-900">
                 <img
-                  src={resto.foto_restoran}
+                  src={getSafeImageUrl(resto.foto_restoran, 'culinary')}
                   alt={resto.nama_restoran}
                   className="w-full h-full object-cover group-hover:scale-104 transition-transform duration-300"
                   referrerPolicy="no-referrer"
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).src = '/src/assets/images/restaurant_indonesian_culinary_1791445115848.jpg';
-                  }}
+                  onError={(e) => handleImageFallback(e, 'culinary')}
                 />
               </div>
               <div className="p-5 flex-1 flex flex-col justify-between space-y-3">
@@ -602,13 +603,11 @@ export const LandingPageView: React.FC<LandingPageViewProps> = ({
             >
               <div className="relative aspect-4/3 overflow-hidden bg-stone-900">
                 <img
-                  src={hotel.foto_penginapan}
+                  src={getSafeImageUrl(hotel.foto_penginapan, 'resort')}
                   alt={hotel.nama_penginapan}
                   className="w-full h-full object-cover group-hover:scale-104 transition-transform duration-300"
                   referrerPolicy="no-referrer"
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).src = '/src/assets/images/resort_villa_ecolodge_1791445128054.jpg';
-                  }}
+                  onError={(e) => handleImageFallback(e, 'resort')}
                 />
               </div>
               <div className="p-5 flex-1 flex flex-col justify-between space-y-3">
@@ -788,13 +787,11 @@ export const LandingPageView: React.FC<LandingPageViewProps> = ({
           >
             <div className="relative h-60 bg-stone-900">
               <img
-                src={selectedItem.image}
+                src={getSafeImageUrl(selectedItem.image, 'highlands')}
                 alt={selectedItem.title}
                 className="w-full h-full object-cover"
                 referrerPolicy="no-referrer"
-                onError={(e) => {
-                  (e.target as HTMLImageElement).src = '/src/assets/images/dolano_hero_highlands_1791445064718.jpg';
-                }}
+                onError={(e) => handleImageFallback(e, 'highlands')}
               />
               <button
                 onClick={() => setSelectedItem(null)}

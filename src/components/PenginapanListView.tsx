@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Plus, Edit2, Trash2, MapPin, ExternalLink, Search, Eye, Phone, Clock, BedDouble } from 'lucide-react';
 import { Penginapan } from '../types';
+import { getSafeImageUrl, handleImageFallback } from '../utils/imageHelper';
 
 interface PenginapanListViewProps {
   penginapanList: Penginapan[];
@@ -133,13 +134,11 @@ export const PenginapanListView: React.FC<PenginapanListViewProps> = ({
                         className="w-12 h-10 rounded-md overflow-hidden bg-stone-100 mx-auto border border-stone-200 cursor-pointer hover:opacity-85 transition-opacity"
                       >
                         <img
-                          src={item.foto_penginapan}
+                          src={getSafeImageUrl(item.foto_penginapan, 'resort')}
                           alt={item.nama_penginapan}
                           className="w-full h-full object-cover"
                           referrerPolicy="no-referrer"
-                          onError={(e) => {
-                            (e.target as HTMLImageElement).src = '/src/assets/images/resort_villa_ecolodge_1791445128054.jpg';
-                          }}
+                          onError={(e) => handleImageFallback(e, 'resort')}
                         />
                       </div>
                     </td>
@@ -186,13 +185,11 @@ export const PenginapanListView: React.FC<PenginapanListViewProps> = ({
           <div className="bg-white rounded-2xl max-w-lg w-full overflow-hidden shadow-2xl border border-stone-200 animate-in fade-in zoom-in-95 duration-150">
             <div className="relative h-56 bg-stone-900">
               <img
-                src={selectedPreview.foto_penginapan}
+                src={getSafeImageUrl(selectedPreview.foto_penginapan, 'resort')}
                 alt={selectedPreview.nama_penginapan}
                 className="w-full h-full object-cover"
                 referrerPolicy="no-referrer"
-                onError={(e) => {
-                  (e.target as HTMLImageElement).src = '/src/assets/images/resort_villa_ecolodge_1791445128054.jpg';
-                }}
+                onError={(e) => handleImageFallback(e, 'resort')}
               />
               <button
                 onClick={() => setSelectedPreview(null)}

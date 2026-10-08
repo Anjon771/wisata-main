@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Plus, Edit2, Trash2, MapPin, ExternalLink, Search, Eye, Phone, Clock } from 'lucide-react';
 import { Restoran } from '../types';
+import { getSafeImageUrl, handleImageFallback } from '../utils/imageHelper';
 
 interface RestoranListViewProps {
   restoranList: Restoran[];
@@ -131,13 +132,11 @@ export const RestoranListView: React.FC<RestoranListViewProps> = ({
                         className="w-12 h-10 rounded-md overflow-hidden bg-stone-100 mx-auto border border-stone-200 cursor-pointer hover:opacity-85 transition-opacity"
                       >
                         <img
-                          src={item.foto_restoran}
+                          src={getSafeImageUrl(item.foto_restoran, 'culinary')}
                           alt={item.nama_restoran}
                           className="w-full h-full object-cover"
                           referrerPolicy="no-referrer"
-                          onError={(e) => {
-                            (e.target as HTMLImageElement).src = '/src/assets/images/restaurant_indonesian_culinary_1791445115848.jpg';
-                          }}
+                          onError={(e) => handleImageFallback(e, 'culinary')}
                         />
                       </div>
                     </td>
@@ -184,13 +183,11 @@ export const RestoranListView: React.FC<RestoranListViewProps> = ({
           <div className="bg-white rounded-2xl max-w-lg w-full overflow-hidden shadow-2xl border border-stone-200 animate-in fade-in zoom-in-95 duration-150">
             <div className="relative h-56 bg-stone-900">
               <img
-                src={selectedPreview.foto_restoran}
+                src={getSafeImageUrl(selectedPreview.foto_restoran, 'culinary')}
                 alt={selectedPreview.nama_restoran}
                 className="w-full h-full object-cover"
                 referrerPolicy="no-referrer"
-                onError={(e) => {
-                  (e.target as HTMLImageElement).src = '/src/assets/images/restaurant_indonesian_culinary_1791445115848.jpg';
-                }}
+                onError={(e) => handleImageFallback(e, 'culinary')}
               />
               <button
                 onClick={() => setSelectedPreview(null)}

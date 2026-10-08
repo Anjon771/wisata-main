@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Camera, ZoomIn, X, MapPin, ExternalLink, ArrowRight } from 'lucide-react';
+import { getSafeImageUrl, handleImageFallback, localAssets } from '../utils/imageHelper';
 
 interface GalleryPhoto {
   id: number;
@@ -24,7 +25,7 @@ export const PhotoMomentsGallery: React.FC<{
       category: 'pegunungan',
       categoryLabel: 'Pegunungan',
       location: 'Penanjakan 1, Bromo Tengger',
-      image: '/src/assets/images/dolano_hero_highlands_1791445064718.jpg',
+      image: localAssets.highlands,
       caption: 'Kilau mentari pertama membelah kabut putih di atas kawah vulkanik purba Bromo dan Semeru.'
     },
     {
@@ -33,7 +34,7 @@ export const PhotoMomentsGallery: React.FC<{
       category: 'air',
       categoryLabel: 'Wisata Air',
       location: 'Kecamatan Pujon, Malang',
-      image: '/src/assets/images/wisata_waterfall_nature_1791445087445.jpg',
+      image: localAssets.waterfall,
       caption: 'Air terjun setinggi 84 meter dilingkupi vegetasi pinus hijau segar dan udara sejuk pegunungan.'
     },
     {
@@ -42,7 +43,7 @@ export const PhotoMomentsGallery: React.FC<{
       category: 'religi',
       categoryLabel: 'Cagar Budaya',
       location: 'Candirenggo, Singosari',
-      image: '/src/assets/images/wisata_temple_heritage_1791445102118.jpg',
+      image: localAssets.temple,
       caption: 'Karya pahat batu andesit sakral peninggalan wangsa Rajasa dari abad ke-13 yang masih berdiri kokoh.'
     },
     {
@@ -51,7 +52,7 @@ export const PhotoMomentsGallery: React.FC<{
       category: 'kuliner',
       categoryLabel: 'Kuliner',
       location: 'Pusat Kota & Kawasan Budaya',
-      image: '/src/assets/images/restaurant_indonesian_culinary_1791445115848.jpg',
+      image: localAssets.culinary,
       caption: 'Racikan bumbu rempah otentik dalam hidangan rawon hitam, kuah hangat, dan sambal terasi khas Jawa Timur.'
     },
     {
@@ -60,7 +61,7 @@ export const PhotoMomentsGallery: React.FC<{
       category: 'resor',
       categoryLabel: 'Akomodasi',
       location: 'Ngadas & Lembah Karangploso',
-      image: '/src/assets/images/resort_villa_ecolodge_1791445128054.jpg',
+      image: localAssets.resort,
       caption: 'Kenyamanan bermalam di kabin kayu dengan balkon menghadap perbukitan hijau berkabut pagi.'
     },
     {
@@ -69,7 +70,7 @@ export const PhotoMomentsGallery: React.FC<{
       category: 'air',
       categoryLabel: 'Wisata Air',
       location: 'Pantai Balekambang, Malang Selatan',
-      image: '/src/assets/images/wisata_waterfall_nature_1791445087445.jpg',
+      image: localAssets.waterfall,
       caption: 'Jembatan panjang di atas ombak samudra menghubungkan pesisir pasir putih dengan pulau karang Pura Ismoyo.'
     }
   ];
@@ -130,9 +131,7 @@ export const PhotoMomentsGallery: React.FC<{
               alt={photo.title}
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-90"
               referrerPolicy="no-referrer"
-              onError={(e) => {
-                (e.target as HTMLImageElement).src = '/src/assets/images/dolano_hero_highlands_1791445064718.jpg';
-              }}
+              onError={(e) => handleImageFallback(e, 'highlands')}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-stone-950/90 via-stone-950/20 to-transparent" />
 
