@@ -1,0 +1,8 @@
+{
+  "name": "Dolano - Portal & Admin Wisata",
+  "description": "Sistem Informasi dan Manajemen Wisata, Restoran, dan Penginapan Dolano.",
+  "requestFramePermissions": [],
+  "capabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
